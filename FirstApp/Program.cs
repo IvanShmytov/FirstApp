@@ -4,23 +4,24 @@ class MainClass
 {
 	public static void Main(string[] args)
 	{
-		string MyName = "Jane";
-		byte Age = 27;
-		bool Pet = true;
-		double FootSize = 37.5;
-		Console.WriteLine("My name is " + MyName);
-		Console.WriteLine("I am " + Age + " years old");
-		Console.WriteLine("Do I have a pet? " + Pet);
-		Console.WriteLine("My shoe size is " + FootSize);
-		Console.WriteLine("Minimum int {0}", int.MinValue);
-		Console.WriteLine("Maximum int {0}", int.MaxValue);
-		Console.WriteLine(Semaphore.Red);
+		Console.Write("Enter your name: ");
+		var name = Console.ReadLine();
+		Console.Write("Enter your age: ");
+		var age = checked ((byte) int.Parse(Console.ReadLine()));
+		Console.WriteLine("Your name is {0} and your age is {1}", name, age);
+		Console.Write("What is your favourite day of week? ");
+		var FavDay = checked((Week)int.Parse(Console.ReadLine()));
+		Console.WriteLine($"Your favourite day of week is {FavDay}");
 		Console.ReadKey();
 	}
 }
-enum Semaphore : int
+enum Week : byte
 {
-	Green = 100,
-	Yellow = 200,
-	Red = 300
+	Monday = 1,
+	Tuesday = 2,
+	Wednesday = 3,
+	Thursday = 4,
+	Friday = 5,
+	Saturday = 6,
+	Sunday = 7
 }
