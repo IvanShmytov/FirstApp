@@ -4,17 +4,14 @@ class MainClass
 {
 	public static void Main(string[] args)
 	{
-
-		const string MyName = "Jane";
-
-		Console.WriteLine(MyName);
-
-		Console.WriteLine("\t Привет Мир");
-		Console.WriteLine("\t Мне 27 лет");
-		Console.WriteLine("\t My name is \n {0}", MyName);
-		Console.WriteLine("\u0040");
-		Console.WriteLine("\u0023");
+		string MyName = "Jane";
+		byte Age = 27;
+		bool Pet = true;
+		double FootSize = 37.5;
+		Console.WriteLine("My name is " + MyName);
+		Console.WriteLine("I am " + Age + " years old");
+		Console.WriteLine("Do I have a pet? " + Pet);
+		Console.WriteLine("My shoe size is " + FootSize);
 		Console.ReadKey();
-
 	}
 }
