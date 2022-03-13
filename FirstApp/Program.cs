@@ -4,24 +4,25 @@ class MainClass
 {
 	public static void Main(string[] args)
 	{
-		Console.Write("Enter your name: ");
-		var name = Console.ReadLine();
-		Console.Write("Enter your age: ");
-		var age = checked ((byte) int.Parse(Console.ReadLine()));
-		Console.WriteLine("Your name is {0} and your age is {1}", name, age);
-		Console.Write("What is your favourite day of week? ");
-		var FavDay = checked((Week)int.Parse(Console.ReadLine()));
-		Console.WriteLine($"Your favourite day of week is {FavDay}");
-		Console.ReadKey();
+		Console.WriteLine("Напишите свой любимый цвет на английском с маленькой буквы");
+		var color = Console.ReadLine();
+		if (color == "red") 
+		{
+			Console.BackgroundColor = ConsoleColor.Red;
+			Console.ForegroundColor = ConsoleColor.Black;
+			Console.WriteLine("Your color is red");
+		}
+		else if (color == "green")
+		{
+			Console.BackgroundColor = ConsoleColor.Green;
+			Console.ForegroundColor = ConsoleColor.Black;
+			Console.WriteLine("Your color is green");
+		}
+		else
+		{
+			Console.BackgroundColor = ConsoleColor.Cyan;
+			Console.ForegroundColor = ConsoleColor.Black;
+			Console.WriteLine("Your color is cyan");
+		}
 	}
-}
-enum Week : byte
-{
-	Monday = 1,
-	Tuesday = 2,
-	Wednesday = 3,
-	Thursday = 4,
-	Friday = 5,
-	Saturday = 6,
-	Sunday = 7
 }
