@@ -4,23 +4,31 @@ class MainClass
 {
     public static void Main(string[] args)
     {
-        int[][] arr = new int[2][];
-        arr[0] = new int []{ -5, 6, 9, 1, 2, -3 };
-        arr[1] = new int[] { -8, 8, 1, 1, 2, -3 };
-        int PosNum = 0;
-        Console.WriteLine("Количество положительных чисел в двухмерном массиве: ");
-        foreach (var item in arr)
+        int[,] arr = { { -5, 6, 9, 1, 2, -3 }, { -8, 8, 1, 1, 2, -3 } };
+        int temp;
+        for (int i = 0; i < arr.GetUpperBound(0) + 1; i++)
         {
-            foreach (var item2 in item)
+            for (int j = 0; j < arr.GetUpperBound(1) + 1; j++)
             {
-                Console.Write(item2 + " ");
-                if (item2 > 0) 
+                for (int k = j + 1; k < arr.GetUpperBound(1) + 1; k++)
                 {
-                    PosNum++;
+                    if (arr[i,j] > arr[i,k])
+                    {
+                        temp = arr[i,k];
+                        arr[i,k] = arr[i,j];
+                        arr[i,j] = temp;
+                    }
                 }
+            }
+        }
+        Console.WriteLine("Отсортированный двухмерный массив { { -5, 6, 9, 1, 2, -3 }, { -8, 8, 1, 1, 2, -3 } }:");
+        for (int i = 0; i < arr.GetUpperBound(0) + 1; i++)
+        {
+            for (int k = 0; k < arr.GetUpperBound(1) + 1; k++)
+            {
+                Console.Write(arr[i,k] + " ");
             }
             Console.WriteLine();
         }
-        Console.Write("= " + PosNum);
     }
 }
