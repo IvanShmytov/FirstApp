@@ -4,31 +4,14 @@ class MainClass
 {
     public static void Main(string[] args)
     {
-        int[,] arr = { { -5, 6, 9, 1, 2, -3 }, { -8, 8, 1, 1, 2, -3 } };
-        int temp;
-        for (int i = 0; i < arr.GetUpperBound(0) + 1; i++)
-        {
-            for (int j = 0; j < arr.GetUpperBound(1) + 1; j++)
-            {
-                for (int k = j + 1; k < arr.GetUpperBound(1) + 1; k++)
-                {
-                    if (arr[i,j] > arr[i,k])
-                    {
-                        temp = arr[i,k];
-                        arr[i,k] = arr[i,j];
-                        arr[i,j] = temp;
-                    }
-                }
-            }
-        }
-        Console.WriteLine("Отсортированный двухмерный массив { { -5, 6, 9, 1, 2, -3 }, { -8, 8, 1, 1, 2, -3 } }:");
-        for (int i = 0; i < arr.GetUpperBound(0) + 1; i++)
-        {
-            for (int k = 0; k < arr.GetUpperBound(1) + 1; k++)
-            {
-                Console.Write(arr[i,k] + " ");
-            }
-            Console.WriteLine();
-        }
+        (string Name, string Type, double Age, int NameCount) Pet;
+        Console.WriteLine("Введите имя питомца");
+        Pet.Name = Console.ReadLine();
+        Console.WriteLine("Введите тип питомца");
+        Pet.Type = Console.ReadLine();
+        Console.WriteLine("Введите возраст питомца");
+        Pet.Age = Convert.ToInt32(Console.ReadLine());
+        Pet.NameCount = Pet.Name.Length;
+        Console.WriteLine("Имя питомца: {0}\nТип питомца: {1}\nВозраст питомца: {2}\nДлинна имени питомца {3}", Pet.Name, Pet.Type, Pet.Age, Pet.NameCount);
     }
 }
