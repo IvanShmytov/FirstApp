@@ -6,11 +6,10 @@ class MainClass
     {
         Console.WriteLine("Введите свое имя");
         string name = Console.ReadLine();
-        Console.WriteLine("Ваше имя по буквам:");
-        foreach (var item in name) 
+        Console.WriteLine("Ваше имя наоборот: ");
+        for (int i = name.Length - 1; i >=0; i--) 
         {
-            Console.Write(item + " ");
+            Console.Write(name[i]);
         }
-        Console.WriteLine("Последняя буква вашего имени: {0}", name[name.Length - 1]);
     }
 }
