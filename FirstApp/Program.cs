@@ -1,9 +1,9 @@
 ﻿class MainClass
 {
 
-    static int[] GetArrayFromConsole()
+    static int[] GetArrayFromConsole(int num = 5)
     {
-        var result = new int[5];
+        var result = new int[num];
 
         for (int i = 0; i < result.Length; i++)
         {
@@ -13,7 +13,7 @@
         return result;
     }
 
-    static int[] SortArray(int[] arr) 
+    static int[] SortArray(int[] arr)
     {
         int temp;
         for (int i = 0; i < arr.Length; i++)
@@ -29,17 +29,26 @@
                 }
             }
         }
-        foreach (var item in arr)
+        return arr;
+    }
+    static void ShowArray(int[] arr, bool IsSort = false) 
+    {
+        var temp = arr;
+        if (IsSort == true) 
+        {
+            temp = SortArray(arr);
+        }
+
+        foreach (var item in temp)
         {
             Console.WriteLine(item);
         }
-        return arr;
     }
 
     public static void Main(string[] args)
     {
-        int[] array = GetArrayFromConsole();
-        SortArray(array);
-
+        var array = GetArrayFromConsole(10);
+        ShowArray(array, true);
+       
     }
 }
