@@ -1,79 +1,28 @@
-﻿
+﻿using System;
 
 class MainClass
 {
-	public static void Main(string[] args)
-	{
-        var arr = GetArrayFromConsole();
-        int[] arrD;
-        int[] arrAs;
-        SortArray(in arr,out arrD, out arrAs);
-	}
-    static int[] GetArrayFromConsole()
+    static void Main(string[] args)
     {
-        var result = new int[5];
-
-        for (int i = 0; i < result.Length; i++)
-        {
-            Console.WriteLine("Введите элемент массива номер {0}", i + 1);
-            result[i] = int.Parse(Console.ReadLine());
-        }
-        return result;
+        Console.WriteLine("Напишите что-то");
+        var str = Console.ReadLine();
+        Console.WriteLine("Укажите глубину эха");
+        var deep = int.Parse(Console.ReadLine());
+        Echo(str, deep);
     }
-    static int[] SortArrayAsc(int[] arr)
+    static void Echo(string phrase, int deep)
     {
-        int[] resasc;
-        int temp;
-        for (int i = 0; i < arr.Length; i++)
+        var modif = phrase;
+        if (modif.Length > 2)
         {
-            for (int j = i + 1; j < arr.Length; j++)
-            {
-                if (arr[j] < arr[i])
-                {
-                    temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-
-                }
-            }
+            modif = modif.Remove(0, 2);
         }
-        Console.WriteLine("\nСортировка по возрастанию");
-        for (int i = 0; i < arr.Length; i++)
+        Console.WriteLine("..." + modif);       
+        if (deep > 1)
         {
-            Console.Write(arr[i] + " ");
+            Echo(modif, deep - 1);
         }
-        resasc = arr;
-        return resasc;
-    }
-    static int[] SortArrayDesc(int[] arr)
-    {
-        int[] resdesc;
-        int temp;
-        for (int i = 0; i < arr.Length; i++)
-        {
-            for (int j = i + 1; j < arr.Length; j++)
-            {
-                if (arr[j] > arr[i])
-                {
-                    temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-
-                }
-            }
-        }
-        Console.WriteLine("\nСортировка по убыванию");
-        for (int i = 0; i < arr.Length; i++)
-        {
-            Console.Write(arr[i] + " ");
-        }
-        resdesc = arr;
-        return resdesc;
-    }
-    static void SortArray(in int[] arr, out int[] sortdesc, out int[] sortasc) 
-    {
-        sortdesc = SortArrayDesc(arr);
-        sortasc = SortArrayAsc(arr);
-    
     }
 }
+
+
