@@ -4,7 +4,8 @@ class MainClass
 {
     public static void Main(string[] args)
     {
-        
+        DerivedClass obj = new DerivedClass();
+        obj.Display();
     }
    
     class BaseClass
@@ -16,10 +17,6 @@ class MainClass
             set;
         }
 
-        public BaseClass(string name)
-        {
-            Name = name;
-        }
         public virtual void Display() 
         {
             Console.WriteLine("Метод класса BaseClass");
@@ -46,16 +43,9 @@ class MainClass
             }
         
         }
-        public DerivedClass(string name, string descr, int count): this(name, descr) 
-        {
-            Counter = count;
-        }
-        public DerivedClass(string name, string descr) : base(name)
-        {
-            Description = descr;
-        }
         public override void Display()
         {
+            base.Display();
             Console.WriteLine("Метод класса DerivedClass");
         }
     }
