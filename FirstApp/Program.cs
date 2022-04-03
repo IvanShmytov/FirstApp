@@ -2,105 +2,151 @@
 
 class Program
 {
-    static void Main(string[] args)
-    {
-        var example = GetInfo();
-        ShowInfo(example);
-    }
+	static void Main(string[] args)
+	{
+		User user = new User();
+		user.Age = 13;
+		Console.WriteLine(user.Age);
+		Console.ReadKey();
+	}
+	class Circle
+	{
+		public double radius;
 
-    static (string Name, string Surname, int Age, string[] Pets, string[] FavColors) GetInfo()
-    {
-        (string Name, string Surname, int Age, string[] Pets, string[] FavColors) Info;
-        Console.WriteLine("Введите имя");
-        Info.Name = Console.ReadLine();
-        Console.WriteLine("Введите фамилию");
-        Info.Surname = Console.ReadLine();
-        string age;
-        int intage;
-        do
-        {
-            Console.WriteLine("Введите возраст цифрами");
-            age = Console.ReadLine();
+		public double Square()
+		{
+			return 3.14 * Math.Pow(radius, 2);
+		}
 
-        } while (CheckNum(age, out intage) == false || intage == 0);
-        Info.Age = intage;
+		public double Length()
+		{
+			return radius * 3.14 * 2;
+		}
+	}
 
-        Console.WriteLine("У вас есть питомцы? (да/нет)");
-        string HavePets = Console.ReadLine();
-        if (HavePets == "да" || HavePets == "Да")
-        {
-            string PetNum;
-            int IntPetNum;
-            do
-            {
-                Console.WriteLine("Сколько питомцев вы держите?\n(введите число)");
-                PetNum = Console.ReadLine();
+	class Triangle
+	{
+		private int a;
+		public int b;
+		public int c;
 
-            } while (CheckNum(PetNum, out IntPetNum) == false || IntPetNum == 0);
-            Info.Pets = new string[IntPetNum];
-            Console.WriteLine("Введите клички ваших питомцев:");
-            Info.Pets = CreateArray(IntPetNum);
-        }
-        else
-        {
-            Info.Pets = new string[1];
-            Info.Pets[0] = "У пользователя нет питомцев";
-        }
+		public int A
+		{
+			get
+			{
+				return a;
+			}
+			set
+			{
+				if (value < 0 || value > b + c)
+				{
+					Console.WriteLine("Incorrect value");
+				}
+				else
+				{
+					a = value;
+				}
 
-        string ColNum;
-        int IntColNum;
-        do
-        {
-            Console.WriteLine("Сколько у вас любимых цветов?\n(введите число)");
-            ColNum = Console.ReadLine();
+			}
+		}
+		public int C
+		{
+			get
+			{
+				return c;
+			}
+			set
+			{
+				if (value < 0 || value > b + a)
+				{
+					Console.WriteLine("Incorrect value");
+				}
+				else
+				{
+					c = value;
+				}
 
-        } while (CheckNum(ColNum, out IntColNum) == false || IntColNum == 0);
-        Console.WriteLine("Введите ваши любимые цвета:");
-        Info.FavColors = CreateArray(IntColNum);
-        return Info;
-    }
-    static void ShowInfo((string Name, string Surname, int Age, string[] Pets, string[] FavColors) Info) 
-    {
-        Console.WriteLine($"\tИнформация о пользователе\nИмя пользователя: {Info.Name}\nФамилия пользователя: {Info.Surname}\nВозраст пользователя: {Info.Age}\nКлички питомцев пользователя:");
-        if (Info.Pets.Length > 1)
-        {
-            foreach (var item in Info.Pets)
-            {
-                Console.WriteLine(item);
-            }
-        }
-        else 
-        {
-            Console.WriteLine(Info.Pets[0]);
-        }
-        Console.WriteLine("Любимые цвета пользователя:");
-        foreach (var item in Info.FavColors)
-        {
-            Console.WriteLine(item);
-        }
-    }
-    static bool CheckNum(string number, out int cornumber)
-    {
-        if (int.TryParse(number, out int intnum))
-        {
-            cornumber = intnum;
-            return true;
-        }
-        else
-        {
-            cornumber = 0;
-            return false;
-        }
-    }
-    static string[] CreateArray(int num)
-    {
-        string[] result = new string[num];
-        for (int i = 0; i < num; i++)
-        {
-            result[i] = Console.ReadLine();
-        }
-        return result;
-    }
+			}
+		}
+		public double Square()
+		{
+			return 2 * a * b;
+		}
+
+		public double Perimeter()
+		{
+			return a + b + c;
+		}
+	}
+
+	class Square
+	{
+		public int side;
+
+		public double SquareOfSquare()
+		{
+			return side * side;
+		}
+
+		public double Perimeter()
+		{
+			return side * 4;
+		}
+	}
+	class TrafficLight 
+	{
+		private string color;
+		private void ChangeColor(string color) { }
+		public string GetColor() 
+		{
+			return color;
+		}
+	}
+	class User
+	{
+		private int age;
+		private string login;
+		private string mail;
+		public int Age
+		{
+			get
+			{
+				return age;
+			}
+
+			set
+			{
+				if (value < 18)
+				{
+					Console.WriteLine("Возраст должен быть не меньше 18");
+				}
+				else
+				{
+					age = value;
+				}
+			}
+		}
+	
+		public string Login { get; private set; }
+		public string Mail
+		{
+			get
+			{
+				return mail;
+			}
+			set
+			{
+				if (!value.Contains('@'))
+				{
+					Console.WriteLine("адрес почты должен содержать символ '@'");
+				}
+				else
+				{
+					mail = value;
+				}
+			}
+		}
+	}
 }
 
 
