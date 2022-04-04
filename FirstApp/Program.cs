@@ -4,51 +4,56 @@ class MainClass
 {
     public static void Main(string[] args)
     {
-        DerivedClass obj = new DerivedClass();
-        obj.Display();
+       
     }
-   
-    class BaseClass
+    class Obj
     {
-        protected string Name;
-        public virtual int Counter
+        public int Value;
+        public static Obj operator + (Obj a, Obj b) 
         {
-            get;
-            set;
-        }
-
-        public virtual void Display() 
-        {
-            Console.WriteLine("Метод класса BaseClass");
-        }
-    }
-
-    class DerivedClass : BaseClass
-    {
-        public string Description;
-        private int counter;
-        public override int Counter 
-        {
-            get { return counter; }
-            set 
+            return new Obj 
             {
-                if (value < 0)
+                Value = a.Value + b.Value 
+            };
+        }
+        public static Obj operator -(Obj a, Obj b)
+        {
+            return new Obj 
+            { 
+                Value = a.Value - b.Value 
+            };
+        }
+    }
+    class IndexingClass
+    {
+        private int[] array;
+
+        public IndexingClass(int[] array)
+        {
+            this.array = array;
+        }
+        public int this[int index] 
+        {
+            get 
+            {
+                if (index >= 0 && index < array.Length)
                 {
-                    Console.WriteLine("число меньше 0");
+                    return array[index];
                 }
                 else 
                 {
-                    counter = value;
+                    return 0;
                 }
             }
-        
-        }
-        public override void Display()
-        {
-            base.Display();
-            Console.WriteLine("Метод класса DerivedClass");
+            set 
+            {
+                if (index >= 0 && index < array.Length)
+                {
+                    array[index] = value;
+                }
+            }
         }
     }
-  
+
 }
 
