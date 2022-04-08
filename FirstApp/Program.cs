@@ -4,56 +4,43 @@ class MainClass
 {
     public static void Main(string[] args)
     {
-       
-    }
-    class Obj
-    {
-        public int Value;
-        public static Obj operator + (Obj a, Obj b) 
-        {
-            return new Obj 
-            {
-                Value = a.Value + b.Value 
-            };
-        }
-        public static Obj operator -(Obj a, Obj b)
-        {
-            return new Obj 
-            { 
-                Value = a.Value - b.Value 
-            };
-        }
-    }
-    class IndexingClass
-    {
-        private int[] array;
+        int num1 = 7;
+        int num2 = -13;
+        int num3 = 0;
 
-        public IndexingClass(int[] array)
+        Console.WriteLine(num1.GetNegative()); //-7
+        Console.WriteLine(num1.GetPositive()); //7
+        Console.WriteLine(num2.GetNegative()); //-13
+        Console.WriteLine(num2.GetPositive()); //13
+        Console.WriteLine(num3.GetNegative()); //0
+        Console.WriteLine(num3.GetPositive()); //0
+    }
+   
+    
+}
+static class IntExtensions
+{
+    public static int GetNegative(this int source)
+    {
+        if (source > 0)
         {
-            this.array = array;
+            return -source;
         }
-        public int this[int index] 
+        else
         {
-            get 
-            {
-                if (index >= 0 && index < array.Length)
-                {
-                    return array[index];
-                }
-                else 
-                {
-                    return 0;
-                }
-            }
-            set 
-            {
-                if (index >= 0 && index < array.Length)
-                {
-                    array[index] = value;
-                }
-            }
+            return source;
         }
     }
-
+    public static int GetPositive(this int source)
+    {
+        if (source < 0)
+        {
+            return -source;
+        }
+        else
+        {
+            return source;
+        }
+    }
 }
 
