@@ -8,19 +8,24 @@ class MainClass
    
     
 }
-class Record<T1, T2> 
+class GasCar : Car<GasEngine>
 {
-    public T1 id;
-    public T2 value;
-    public DateTime Date;
+    public override void ChangePart<TPart>(TPart NewPart)
+    { 
+    }
 }
-class Car<TPart, TEngine>
+class ElectricCar : Car<ElectricEngine>
+{
+    public override void ChangePart<TPart>(TPart NewPart)
+    {
+    }
+}
+abstract class Car<TEngine>
     where TEngine:Engine
 {
     public TEngine engine;
-    public void ChangePart<TPart>(TPart NewPart) where TPart:Part
-        {
-        }
+    abstract public void ChangePart<TPart>(TPart NewPart) where TPart : Part;
+        
 }
 class Engine { }
 class Part { }
