@@ -4,43 +4,28 @@ class MainClass
 {
     public static void Main(string[] args)
     {
-        int num1 = 7;
-        int num2 = -13;
-        int num3 = 0;
-
-        Console.WriteLine(num1.GetNegative()); //-7
-        Console.WriteLine(num1.GetPositive()); //7
-        Console.WriteLine(num2.GetNegative()); //-13
-        Console.WriteLine(num2.GetPositive()); //13
-        Console.WriteLine(num3.GetNegative()); //0
-        Console.WriteLine(num3.GetPositive()); //0
     }
    
     
 }
-static class IntExtensions
+class Record<T1, T2> 
 {
-    public static int GetNegative(this int source)
-    {
-        if (source > 0)
-        {
-            return -source;
-        }
-        else
-        {
-            return source;
-        }
-    }
-    public static int GetPositive(this int source)
-    {
-        if (source < 0)
-        {
-            return -source;
-        }
-        else
-        {
-            return source;
-        }
-    }
+    public T1 id;
+    public T2 value;
+    public DateTime Date;
 }
-
+class Car<TPart, TEngine>
+    where TEngine:Engine
+{
+    public TEngine engine;
+    public void ChangePart<TPart>(TPart NewPart) where TPart:Part
+        {
+        }
+}
+class Engine { }
+class Part { }
+class ElectricEngine: Engine { }
+class GasEngine: Engine { }
+class Wheel: Part { }
+class Battery: Part { }
+class Differential: Part { }
