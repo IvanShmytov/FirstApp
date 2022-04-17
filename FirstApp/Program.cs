@@ -4,33 +4,81 @@ class MainClass
 {
     public static void Main(string[] args)
     {
+        // получим системные диски
+        DriveInfo[] drives = DriveInfo.GetDrives();
+
+        // Пробежимся по дискам и выведем их свойства
+        foreach (DriveInfo drive in drives)
+        {
+            Console.WriteLine($"Название: {drive.Name}");
+            Console.WriteLine($"Тип: {drive.DriveType}");
+            if (drive.IsReady)
+            {
+                Console.WriteLine($"Объем: {drive.TotalSize}");
+                Console.WriteLine($"Свободно: {drive.TotalFreeSpace}");
+                Console.WriteLine($"Метка: {drive.VolumeLabel}");
+            }
+        }
+        GetCatalogs(); //   Вызов метода получения директорий
+        Counter();
     }
-   
-    
-}
-class GasCar : Car<GasEngine>
-{
-    public override void ChangePart<TPart>(TPart NewPart)
-    { 
-    }
-}
-class ElectricCar : Car<ElectricEngine>
-{
-    public override void ChangePart<TPart>(TPart NewPart)
+    class Drive
     {
+        public string Name { get; }
+        public int Volume { get; }
+        public int FreeSpace { get; }
+        Dictionary<string, Folder> Folders = new Dictionary<string, Folder>();
+
+        public void CreateFolder(string name)
+        {
+            Folders.Add(name, new Folder());
+        }
+        public Drive(string name, int volume, int freespace)
+        {
+            Name = name;
+            Volume = volume;
+            FreeSpace = freespace;
+        }
     }
-}
-abstract class Car<TEngine>
-    where TEngine:Engine
-{
-    public TEngine engine;
-    abstract public void ChangePart<TPart>(TPart NewPart) where TPart : Part;
-        
-}
-class Engine { }
-class Part { }
-class ElectricEngine: Engine { }
-class GasEngine: Engine { }
-class Wheel: Part { }
-class Battery: Part { }
-class Differential: Part { }
+    public class Folder
+    {
+        public List<string> Files { get; set; } = new List<string>();
+    }
+    static void Counter() 
+    {
+        string dirName = "C:\\";
+        if (Directory.Exists(dirName)) // Проверим, что директория существует
+        {
+            string[] dirs = Directory.GetDirectories(dirName);
+            int DirCount = dirs.Length;
+            Console.WriteLine($"Количество папок в корневом каталоге: {DirCount}");
+            string[] files = Directory.GetFiles(dirName);// Получим все файлы корневого каталога
+            int FileCount = files.Length;
+            Console.WriteLine($"Количество файлов в корневом каталоге: {FileCount}");
+        }
+        else 
+        {
+            Console.WriteLine("Указан неверный путь к корневому каталогу");
+        }
+    }
+    static void GetCatalogs()
+    {
+        string dirName = "C:\\"; // Прописываем путь к корневой директории MacOS (для Windows скорее всего тут будет "C:\\")
+        if (Directory.Exists(dirName)) // Проверим, что директория существует
+        {
+            Console.WriteLine("Папки:");
+            string[] dirs = Directory.GetDirectories(dirName);  // Получим все директории корневого каталога
+
+            foreach (string d in dirs) // Выведем их все
+                Console.WriteLine(d);
+
+            Console.WriteLine();
+            Console.WriteLine("Файлы:");
+            string[] files = Directory.GetFiles(dirName);// Получим все файлы корневого каталога
+
+            foreach (string s in files)   // Выведем их все
+                Console.WriteLine(s);
+        }
+    }
+    }
+
