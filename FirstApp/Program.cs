@@ -5,25 +5,34 @@ class MainClass
     public static void Main(string[] args)
     {
 
-        string filePath = @"C:\Users\ivans\source\repos\FirstApp\FirstApp\Program.cs"; // Укажем путь 
-        FileInfo fileinfo = new FileInfo(filePath);
-
-        using (StreamWriter sw = fileinfo.AppendText()) 
+        string filePath = @"C:\Users\ivans\Desktop\BinaryFile.bin";
+        WriteToFile(filePath);
+        ReadFromFile(filePath);
+    }
+    static void WriteToFile(string filePath) 
+    {
+        using (BinaryWriter writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
         {
-            sw.WriteLine(DateTime.Now);
-        }
-        using (StreamReader sr = fileinfo.OpenText())
-        {
-            string str = "";
-            while ((str = sr.ReadLine()) != null)
-            {
-                Console.WriteLine(str);
-            }
+            writer.Write($"Файл изменен {DateTime.Now} на компьютере {Environment.OSVersion}");
         }
     }
-
+    static void ReadFromFile(string filePath) 
+    {
+        if (File.Exists(filePath))
+        {
+            string stringValue;
+            using (BinaryReader reader = new BinaryReader(File.Open(filePath, FileMode.Open)))
+            {
+                stringValue = reader.ReadString();
+            }
+            Console.WriteLine("Из файла считано:");
+            Console.WriteLine(stringValue);
+        }
+        using (BinaryWriter writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
+        {
+            writer.Write($"Файл изменен {DateTime.Now} на компьютере {Environment.OSVersion}");
+        }
+    }
    
 }
 
-
-//18.04.2022 15:52:58
