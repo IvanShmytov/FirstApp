@@ -1,38 +1,43 @@
 ﻿using System;
-
+using System.Runtime.Serialization.Formatters.Binary;
 class MainClass
 {
     public static void Main(string[] args)
     {
+        Contact con = new Contact("Victor", 333222, "victor@mail.ru");
+        BinaryFormatter form = new BinaryFormatter();
+        using (FileStream fs = new FileStream("Victor.dat", FileMode.OpenOrCreate)) 
+        {
+            form.Serialize(fs, con);
+            Console.WriteLine("Объект сериализован");
+        }
+        using (FileStream fs = new FileStream("Victor.dat", FileMode.OpenOrCreate)) 
+        {
+            Contact newCon = (Contact)form.Deserialize(fs);
+            Console.WriteLine("Объект десериализован");
+            Console.WriteLine(newCon); 
+        }
+    }
+    [Serializable]
+    class Contact
+    {
+        private string Name { get; set; }
+        private long PhoneNumber { get; set; }
+        private string Email { get; set; }
 
-        string filePath = @"C:\Users\ivans\Desktop\BinaryFile.bin";
-        WriteToFile(filePath);
-        ReadFromFile(filePath);
-    }
-    static void WriteToFile(string filePath) 
-    {
-        using (BinaryWriter writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
+        public Contact(string name, long phoneNumber, string email)
         {
-            writer.Write($"Файл изменен {DateTime.Now} на компьютере {Environment.OSVersion}");
+            Name = name;
+            PhoneNumber = phoneNumber;
+            Email = email;
+        }
+        public override string ToString() 
+        {
+            string result = $"имя - {Name}\nтелефон - {PhoneNumber}\nемейл - {Email}";
+            return result; 
         }
     }
-    static void ReadFromFile(string filePath) 
-    {
-        if (File.Exists(filePath))
-        {
-            string stringValue;
-            using (BinaryReader reader = new BinaryReader(File.Open(filePath, FileMode.Open)))
-            {
-                stringValue = reader.ReadString();
-            }
-            Console.WriteLine("Из файла считано:");
-            Console.WriteLine(stringValue);
-        }
-        using (BinaryWriter writer = new BinaryWriter(File.Open(filePath, FileMode.Create)))
-        {
-            writer.Write($"Файл изменен {DateTime.Now} на компьютере {Environment.OSVersion}");
-        }
-    }
+
    
 }
 
