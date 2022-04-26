@@ -1,18 +1,37 @@
 ﻿using System;
 using System.Runtime.Serialization.Formatters.Binary;
-class MainClass
+namespace FirstApp
 {
-    delegate void ShowMessageDelegate(string _message);
-    delegate int RandomNumberDelegate();
-    public static void Main(string[] args)
+    class MainClass
     {
-        ShowMessageDelegate showMessageDelegate = (string str) => Console.WriteLine(str);
-        showMessageDelegate.Invoke("Hello World!");
-        RandomNumberDelegate randomNumberDelegate = () => new Random().Next(0,100);
-        int result = randomNumberDelegate.Invoke();
-        Console.WriteLine(result);
-        Console.Read();
+        public delegate Car CarDelegate();
+        public delegate void ParentDelegate(Parent p);
+        public static void Main(string[] args)
+        {
+
+            CarDelegate cardel = LexusHandler;
+            Child ch = new Child();
+            ParentDelegate PD = ParentInfo;
+            PD.Invoke(ch);
+            Console.Read();
+        }
+        public static Car CarHandler()
+        {
+            return null;
+        }
+
+        public static Lexus LexusHandler()
+        {
+            return null;
+        }
+        public static void ParentInfo(Parent par) 
+        {
+            Console.WriteLine(par.GetType());
+        }
     }
- 
+    class Car {}
+    class Lexus : Car { }
+    class Parent {}
+    class Child : Parent { }
 }
 
