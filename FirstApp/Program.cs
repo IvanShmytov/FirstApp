@@ -4,34 +4,52 @@ namespace FirstApp
 {
     class MainClass
     {
-        public delegate Car CarDelegate();
-        public delegate void ParentDelegate(Parent p);
         public static void Main(string[] args)
         {
-
-            CarDelegate cardel = LexusHandler;
-            Child ch = new Child();
-            ParentDelegate PD = ParentInfo;
-            PD.Invoke(ch);
-            Console.Read();
+            try
+            {
+                //Writer Pushkin = new Writer();
+                //((IWriter)Pushkin).Write();
+                Worker worker = new Worker();
+                ((IWorker)worker).Build();
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.GetType());
+                Console.WriteLine(ex.Message);
+            }
         }
-        public static Car CarHandler()
+       
+    }
+    public interface IWriter
+    {
+        void Write();
+    }
+    class Writer : IWriter
+    {
+        void IWriter.Write()
         {
-            return null;
-        }
-
-        public static Lexus LexusHandler()
-        {
-            return null;
-        }
-        public static void ParentInfo(Parent par) 
-        {
-            Console.WriteLine(par.GetType());
+            throw new NotImplementedException();
         }
     }
-    class Car {}
-    class Lexus : Car { }
-    class Parent {}
-    class Child : Parent { }
+    public interface IWorker
+    {
+        public void Build();
+    }
+    class Worker : IWorker
+    {
+        void IWorker.Build()
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public interface IManager 
+    {
+        public void Create();
+        public void Read();
+        public void Update();
+        public void Delete();
+
+    }
 }
 
