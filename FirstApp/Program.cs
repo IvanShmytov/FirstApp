@@ -8,10 +8,13 @@ namespace FirstApp
         {
             try
             {
-                //Writer Pushkin = new Writer();
-                //((IWriter)Pushkin).Write();
-                Worker worker = new Worker();
-                ((IWorker)worker).Build();
+                User user = new User();
+                Account account = new Account();
+                IUpdater<Account> updater = new UserService();
+                updater.Update(account);
+                UserService US = new UserService();
+                US.Update(user);
+                US.Update(account);
             }
             catch (Exception ex) 
             {
@@ -21,35 +24,25 @@ namespace FirstApp
         }
        
     }
-    public interface IWriter
+    class UserService : IUpdater<User>
     {
-        void Write();
-    }
-    class Writer : IWriter
-    {
-        void IWriter.Write()
+        public void Update(User entity)
         {
             throw new NotImplementedException();
         }
     }
-    public interface IWorker
+    public class User
     {
-        public void Build();
-    }
-    class Worker : IWorker
-    {
-        void IWorker.Build()
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public interface IManager 
-    {
-        public void Create();
-        public void Read();
-        public void Update();
-        public void Delete();
 
+    }
+
+    public class Account : User
+    {
+
+    }
+    public interface IUpdater<in T>
+    {
+        void Update(T entity);
     }
 }
 
