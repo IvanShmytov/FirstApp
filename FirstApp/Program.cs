@@ -2,47 +2,39 @@
 using System.Runtime.Serialization.Formatters.Binary;
 namespace FirstApp
 {
-    class MainClass
+    class Program
     {
         public static void Main(string[] args)
         {
-            try
-            {
-                User user = new User();
-                Account account = new Account();
-                IUpdater<Account> updater = new UserService();
-                updater.Update(account);
-                UserService US = new UserService();
-                US.Update(user);
-                US.Update(account);
-            }
-            catch (Exception ex) 
-            {
-                Console.WriteLine(ex.GetType());
-                Console.WriteLine(ex.Message);
-            }
+            int[] arr = new int[] {1, 8, 15, 23, 47 };
+            Console.WriteLine(BinarySearch(23, arr, 0, arr.Length - 1));
         }
-       
-    }
-    class UserService : IUpdater<User>
-    {
-        public void Update(User entity)
+        static int BinarySearch(int value, int[] array, int left, int right)
         {
-            throw new NotImplementedException();
+
+            while (left <= right)
+            {
+                var middle = (left + right) / 2;
+
+                var midElement = array[middle];
+
+                if (midElement == value)
+                {
+                    return middle;
+                }
+                else if (value < midElement)
+                {
+                    right = middle - 1;
+                }
+                else
+                {
+                    left = middle + 1;
+                }
+
+            }
+            return -1;
         }
-    }
-    public class User
-    {
 
-    }
-
-    public class Account : User
-    {
-
-    }
-    public interface IUpdater<in T>
-    {
-        void Update(T entity);
     }
 }
 
