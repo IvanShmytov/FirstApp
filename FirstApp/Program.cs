@@ -1,40 +1,31 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
+using BenchmarkDotNet;
+using BenchmarkDotNet.Running;
+using BenchmarkDotNet.Attributes;
+
 namespace FirstApp
 {
-    class Program
+    public class Program
     {
         public static void Main(string[] args)
         {
-            int[] arr = new int[] {1, 8, 15, 23, 47 };
-            Console.WriteLine(BinarySearch(23, arr, 0, arr.Length - 1));
+            int[] arr = new int[] { 1, 16, 47, 51, 77, 105 };
+            Console.WriteLine(GetIndex(45, arr));
         }
-        static int BinarySearch(int value, int[] array, int left, int right)
+        public static int GetIndex(int numb, int[] array) 
         {
-
-            while (left <= right)
+            for (int i = 0; i < array.Length; i++)
             {
-                var middle = (left + right) / 2;
-
-                var midElement = array[middle];
-
-                if (midElement == value)
+                if (array[i] > numb)
                 {
-                    return middle;
+                    return i;
                 }
-                else if (value < midElement)
-                {
-                    right = middle - 1;
-                }
-                else
-                {
-                    left = middle + 1;
-                }
-
             }
-            return -1;
+            return array.Length;
         }
-
-    }
+	}
 }
 
