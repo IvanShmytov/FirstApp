@@ -12,19 +12,19 @@ namespace FirstApp
     {
         public static void Main(string[] args)
         {
-            int[] arr = new int[] { 1, 16, 47, 51, 77, 105 };
-            Console.WriteLine(GetIndex(45, arr));
+            int[] arr = new int[] { 1, 16, 47, 51, 77, 65 };
+            Console.WriteLine(IsSorted(arr));
         }
-        public static int GetIndex(int numb, int[] array) 
+        public static bool IsSorted(int[] array) 
         {
-            for (int i = 0; i < array.Length; i++)
+            for (int i = 0; i < array.Length - 1; i++)
             {
-                if (array[i] > numb)
+                if (array[i] > array[i + 1])
                 {
-                    return i;
+                    return false;
                 }
             }
-            return array.Length;
+            return true;
         }
 	}
 }
