@@ -1,31 +1,17 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Text;
-using System.Runtime.Serialization.Formatters.Binary;
-using BenchmarkDotNet;
-using BenchmarkDotNet.Running;
-using BenchmarkDotNet.Attributes;
-
-namespace FirstApp
+using System.IO;
+namespace CountWords
 {
-    public class Program
+    class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
-            int[] arr = new int[] { 1, 16, 47, 51, 77, 65 };
-            Console.WriteLine(IsSorted(arr));
+            string Path = @"C:\Users\ivans\Desktop\cdev_Text.txt";
+            string Text = File.ReadAllText(Path);
+            char[] Dividers = new char[] { ' ', '\r', '\n', '\t' };
+            string[] NumbOfWords = Text.Split(Dividers, StringSplitOptions.RemoveEmptyEntries);
+            Console.WriteLine(NumbOfWords.Length);
         }
-        public static bool IsSorted(int[] array) 
-        {
-            for (int i = 0; i < array.Length - 1; i++)
-            {
-                if (array[i] > array[i + 1])
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-	}
+    }
 }
 
