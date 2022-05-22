@@ -9,28 +9,26 @@ namespace CountWords
     {
         static void Main(string[] args)
         {
-            string text = "Подсчитайте, 1сколько уникальных символов в этом предложении, используя HashSet<T>, учитывая знаки препинания, но не учитывая пробелы в начале и в конце предложения.";
-            var hSet = new HashSet<char>(text);
-            Console.WriteLine("Символов всего " + hSet.Count);
-            char[] symbols = new char[] {'.', ',', '!', '?', ' ' };
-            hSet.ExceptWith(symbols);
-            Console.WriteLine("Символов без знаков препинания " + hSet.Count);
-
-            //foreach (var item in hSet)
-            //{
-            //    if (char.IsDigit(item)) 
-            //    {
-            //        Console.WriteLine("В тексте есть цифры");
-            //        break;
-            //    }
-            //}
-
-            string numbers = null;
-            for (int i = 0; i < 10; i++)
+            string key;
+            do
             {
-                numbers += i;
-            }
-            Console.WriteLine("В тексте есть цифры - " + hSet.Overlaps(numbers));
+                Console.WriteLine("Введите текст");
+                string text = Console.ReadLine();
+                var hSet = new HashSet<char>(text);
+                Console.WriteLine("Символов всего " + hSet.Count);
+                char[] symbols = new char[] { '.', ',', '!', '?', ' ' };
+                hSet.ExceptWith(symbols);
+                Console.WriteLine("Символов без знаков препинания " + hSet.Count);
+
+                string numbers = null;
+                for (int i = 0; i < 10; i++)
+                {
+                    numbers += i;
+                }
+                Console.WriteLine("В тексте есть цифры - " + hSet.Overlaps(numbers));
+                Console.WriteLine("Желаете повторить?\nВведите \'Да\', чтобы продолжить");
+                key = Console.ReadLine();
+            } while (key == "Да");
         }
     }
 }
