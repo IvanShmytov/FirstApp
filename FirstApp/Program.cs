@@ -1,63 +1,48 @@
 ﻿using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 namespace CountWords
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var months = new[]
-            {
-               "Jan", "Feb", "Mar", "Apr", "May" , "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-            };
-            var numbers = new[]
-            {
-               1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12
-            };
-            var ArrL = new ArrayList();
-            foreach (var number in numbers)
-            {
-                ArrL.Add(months[number - 1]);
-                ArrL.Add(number);
-            }
-            foreach (var item in ArrL)
-            {
-                Console.WriteLine(item);
-            }
-
-            Console.WriteLine();
-            var NewArrl = new ArrayList()
-            {
-                1,
-                "Андрей ",
-                "Сергей ",
-                300,
-            };
-            var Result = ArrListConvert(NewArrl);
-            foreach (var item in Result)
-            {
-                Console.WriteLine(item);
-            }
+            var phoneBook = new List<Contact>();
+            phoneBook.Add(new Contact("Игорь", 79990000000, "igor@example.com"));
+            phoneBook.Add(new Contact("Андрей", 79990000001, "andrew@example.com"));
+            AddUnique(new Contact("Иван", 79990000003, "ivan@example.com"), phoneBook);
         }
-        static ArrayList ArrListConvert( ArrayList Input) 
+        static void AddUnique(Contact contact, List<Contact> phoneBook) 
         {
-            int numbers = 0;
-            string text = "";
-            foreach (var item in Input)
+            foreach (var item in phoneBook)
             {
-                if (item is int) 
+                if (item.Name == contact.Name) 
                 {
-                    numbers += (int) item;
-                }
-                if (item is string)
-                {
-                    text += item;
+                    Console.WriteLine("В телефонной книге уже есть этот контакт");
+                    return;
                 }
             }
-            ArrayList Output = new ArrayList() { numbers, text };
-            return Output;
+            phoneBook.Add(contact);
+            phoneBook.Sort((x, y) => string.Compare(x.Name, y.Name));
+            foreach (var item in phoneBook)
+            {
+                Console.WriteLine(item.Name + item.PhoneNumber);
+            }       
         }
+    }
+    public class Contact 
+    {
+        public Contact(string name, long phoneNumber, string email)
+        {
+            Name = name;
+            PhoneNumber = phoneNumber;
+            Email = email;
+        }
+
+        public string Name { get; }
+        public long PhoneNumber { get; }
+        public string Email { get; }
     }
 }
 
