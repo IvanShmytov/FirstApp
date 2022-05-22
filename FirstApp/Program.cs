@@ -8,41 +8,39 @@ namespace CountWords
     {
         static void Main(string[] args)
         {
-            var phoneBook = new List<Contact>();
-            phoneBook.Add(new Contact("Игорь", 79990000000, "igor@example.com"));
-            phoneBook.Add(new Contact("Андрей", 79990000001, "andrew@example.com"));
-            AddUnique(new Contact("Иван", 79990000003, "ivan@example.com"), phoneBook);
-        }
-        static void AddUnique(Contact contact, List<Contact> phoneBook) 
-        {
-            foreach (var item in phoneBook)
+            var months = new List<string>()
             {
-                if (item.Name == contact.Name) 
+                "Jan", "Feb", "Mar", "Apr", "May"
+            };
+            var missing = new ArrayList()
+            {
+                1, 2, 3, 5, "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            };
+            //InsertMonths(missing, months);
+            GetMissing(months, missing);
+        }
+        static void InsertMonths(ArrayList mixed, List<string> result)
+        {
+            foreach (var item in mixed)
+            {
+                if (item is string)
                 {
-                    Console.WriteLine("В телефонной книге уже есть этот контакт");
-                    return;
+                    result.Add((string)item);
                 }
             }
-            phoneBook.Add(contact);
-            phoneBook.Sort((x, y) => string.Compare(x.Name, y.Name));
-            foreach (var item in phoneBook)
+            foreach (var item in result)
             {
-                Console.WriteLine(item.Name + item.PhoneNumber);
-            }       
+                Console.WriteLine(item);
+            }
         }
-    }
-    public class Contact 
-    {
-        public Contact(string name, long phoneNumber, string email)
+        private static void GetMissing(List<string> months, ArrayList missing)
         {
-            Name = name;
-            PhoneNumber = phoneNumber;
-            Email = email;
+            var missedArray = new string[7];
+            missing.GetRange(4, 7).CopyTo(missedArray);
+            months.AddRange(missedArray);
+            foreach (var month in months)
+                Console.WriteLine(month);
         }
-
-        public string Name { get; }
-        public long PhoneNumber { get; }
-        public string Email { get; }
     }
 }
 
