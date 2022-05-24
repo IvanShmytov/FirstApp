@@ -1,48 +1,47 @@
 ﻿using System;
-using System.Text;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
-namespace CountWords
+
+namespace StackTest
 {
     class Program
     {
-        private static Dictionary<string, Contact> PhoneBook = new Dictionary<String, Contact>()
-        {
-            ["Игорь"] = new Contact(79990000000, "igor@example.com"),
-            ["Андрей"] = new Contact(79990000001, "andrew@example.com"),
-        };
+        public static Stack<string> words = new Stack<string>();
         static void Main(string[] args)
         {
-            WriteAllContacts();
-            PhoneBook.Add("Иван", new Contact(79990000003, "ivan@example.com"));
-            WriteAllContacts();
-            if (PhoneBook.TryGetValue("Иван", out Contact contact))
-            {
-                contact.PhoneNumber = 123456789;
-            }
-            WriteAllContacts();
-        }
-        static void WriteAllContacts() 
-        {
-            Console.WriteLine("Список ваших контактов");
-            foreach (var contact in PhoneBook)
-            {
-                Console.WriteLine(contact.Key + ": " + contact.Value.PhoneNumber);
-            }
+            Console.WriteLine("Введите слово и нажмите Enter, чтобы добавить его в стек.");
             Console.WriteLine();
-        }
-    }
-    public class Contact 
-    {
-        public Contact(long phoneNumber, String email) 
-        {
-            PhoneNumber = phoneNumber;
-            Email = email;
-        }
+            string key;
+            while (true)
+            {
+                var input = Console.ReadLine();
+                Console.WriteLine("Введите команду:\nPush\nPop\nPeek");
+                key = Console.ReadLine();
+                switch (key)
+                {
+                    case("Push"): 
+                        words.Push(input);
+                        break;
+                    case ("Pop"):
+                        words.TryPop(out string popresult);
+                        break;
+                    case ("Peek"):
+                        Console.WriteLine(words.TryPeek(out string peekresult));
+                        break;
+                    default:
+                        Console.WriteLine("Введена неверная команда");
+                        break;
+                }
+                Console.WriteLine();
+                Console.WriteLine("В стеке:");
 
-        public long PhoneNumber { get; set; }
-        public String Email { get; }
+                foreach (var word in words)
+                {
+                    Console.WriteLine(" " + word);
+                }
+            }
+        }
     }
 }
+        
 
+    
