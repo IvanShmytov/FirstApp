@@ -1,47 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace StackTest
 {
     class Program
     {
-        public static Stack<string> words = new Stack<string>();
+        // объявим потокобезопасную очередь (полностью идентична обычной очереди, но
+        // позволяет безопасный доступ
+        // из разных потоков)
+        public static ConcurrentQueue<string> words = new ConcurrentQueue<string>();
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Введите слово и нажмите Enter, чтобы добавить его в стек.");
+            Console.WriteLine("Введите слово и нажмите Enter, чтобы добавить его в очередь.");
             Console.WriteLine();
-            string key;
+
+            //  запустим обработку очереди в отдельном потоке
+            StartQueueProcessing();
+
             while (true)
             {
                 var input = Console.ReadLine();
-                Console.WriteLine("Введите команду:\nPush\nPop\nPeek");
-                key = Console.ReadLine();
-                switch (key)
+                // если введена нужная нам команда - смотрим, кто крайний в очереди
+                if (input == "peek")
                 {
-                    case("Push"): 
-                        words.Push(input);
-                        break;
-                    case ("Pop"):
-                        words.TryPop(out string popresult);
-                        break;
-                    case ("Peek"):
-                        Console.WriteLine(words.TryPeek(out string peekresult));
-                        break;
-                    default:
-                        Console.WriteLine("Введена неверная команда");
-                        break;
+                    if (words.TryPeek(out var elem))
+                    {
+                        Console.WriteLine(elem);
+                    }
                 }
-                Console.WriteLine();
-                Console.WriteLine("В стеке:");
-
-                foreach (var word in words)
+                else
                 {
-                    Console.WriteLine(" " + word);
+                    // если не введена - ставим элемент в очередь, как и обычно
+                    words.Enqueue(input);
                 }
             }
         }
+
+        // метод, который обрабатывает и разбирает нашу очередь в отдельном потоке
+        // ( для выполнения задания изменять его не нужно )
+        static void StartQueueProcessing()
+        {
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+
+                while (true)
+                {
+                    Thread.Sleep(5000);
+                    if (words.TryDequeue(out var element))
+                        Console.WriteLine("======>  " + element + " прошел очередь");
+                }
+
+            }).Start();
+        }
     }
 }
-        
 
-    
