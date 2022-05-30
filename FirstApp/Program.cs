@@ -9,13 +9,14 @@ namespace LinqTest
 
         static void Main(string[] args)
         {
-            string[] text = { "Раз два три",
-                               "четыре пять шесть",
-                               "семь восемь девять" };
-            var words = from element in text
-                        from word in element.Split(' ')
-                        select word;
-            foreach (var item in words)
+            var numsList = new List<int[]>()
+            {
+               new[] {2, 3, 7, 1},
+               new[] {45, 17, 88, 0},
+               new[] {23, 32, 44, -6},
+            };
+            var sortedNums = numsList.SelectMany(s => s).OrderBy(s => s);
+            foreach (var item in sortedNums)
             {
                 Console.WriteLine(item);
             }
