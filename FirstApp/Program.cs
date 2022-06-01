@@ -9,19 +9,38 @@ namespace LinqTest
 
         static void Main(string[] args)
         {
-            string[] words = { "Обезьяна", "Лягушка", "Кот", "Собака", "Черепаха" };
-            var newWords = words.Select(x => new
+            // Наш список студентов
+            List<Student> students = new List<Student>
             {
-                Name = x,
-                NameLength = x.Length
-            }).OrderBy(x => x.NameLength);
-            foreach (var item in newWords)
+               new Student {Name="Андрей", Age=23, Languages = new List<string> {"английский", "немецкий" }},
+               new Student {Name="Сергей", Age=27, Languages = new List<string> {"английский", "французский" }},
+               new Student {Name="Дмитрий", Age=29, Languages = new List<string> {"английский", "испанский" }},
+               new Student {Name="Василий", Age=24, Languages = new List<string> {"испанский", "немецкий" }}
+            };
+            var studApps = from s in students
+                           where s.Age < 27
+                           let yearOfBirth = DateTime.Now.Year - s.Age
+                           select new Application
+                           {
+                               Name = s.Name,
+                               YearOfBirth = yearOfBirth
+                           };
+            foreach (var item in studApps)
             {
-                Console.WriteLine($"\'{item.Name}\' - длина слова {item.NameLength}");
+                Console.WriteLine($"Студент \'{item.Name}\' - год рождения {item.YearOfBirth}");
             }
         }
-
-     
+        public class Application
+        {
+            public string Name { get; set; }
+            public int YearOfBirth { get; set; }
+        }
+        public class Student 
+        {
+            public string Name { get; set; }
+            public int Age { get; set; }
+            public List<string> Languages { get; set; }
+        }
     }
 }
 
