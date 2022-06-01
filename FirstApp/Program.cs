@@ -9,16 +9,15 @@ namespace LinqTest
 
         static void Main(string[] args)
         {
-            var numsList = new List<int[]>()
+            string[] words = { "Обезьяна", "Лягушка", "Кот", "Собака", "Черепаха" };
+            var newWords = words.Select(x => new
             {
-               new[] {2, 3, 7, 1},
-               new[] {45, 17, 88, 0},
-               new[] {23, 32, 44, -6},
-            };
-            var sortedNums = numsList.SelectMany(s => s).OrderBy(s => s);
-            foreach (var item in sortedNums)
+                Name = x,
+                NameLength = x.Length
+            }).OrderBy(x => x.NameLength);
+            foreach (var item in newWords)
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"\'{item.Name}\' - длина слова {item.NameLength}");
             }
         }
 
