@@ -9,44 +9,58 @@ namespace LinqTest
 
         static void Main(string[] args)
         {
-            List<Student> students = new List<Student>
+            var contacts = new List<Contact>()
             {
-               new Student {Name="Андрей", Age=23, Languages = new List<string> {"английский", "немецкий" }},
-               new Student {Name="Сергей", Age=27, Languages = new List<string> {"английский", "французский" }},
-               new Student {Name="Дмитрий", Age=29, Languages = new List<string> {"английский", "испанский" }},
-               new Student {Name="Василий", Age=24, Languages = new List<string> {"испанский", "немецкий" }}
+               new Contact() { Name = "Андрей", Phone = 7999945005 },
+               new Contact() { Name = "Сергей", Phone = 799990455 },
+               new Contact() { Name = "Иван", Phone = 79999675 },
+               new Contact() { Name = "Игорь", Phone = 8884994 },
+               new Contact() { Name = "Анна", Phone = 665565656 },
+               new Contact() { Name = "Василий", Phone = 3434 }
             };
-            var coarses = new List<Coarse>
+            while (true)
             {
-               new Coarse {Name="Язык программирования C#", StartDate = new DateTime(2020, 12, 20)},
-               new Coarse {Name="Язык SQL и реляционные базы данных", StartDate = new DateTime(2020, 12, 15)},
-            };
-            var CsharpStuds = from s in students   
-                           where s.Age < 29 && s.Languages.Contains("английский")
-                           let birthYear = DateTime.Now.Year - s.Age
-                           from c in coarses
-                           where c.Name == "Язык программирования C#"
-                           select new 
-                           {
-                               Name = s.Name,
-                               YearOfBirth = birthYear,
-                               CoarseName = c.Name
-                           };
-            foreach (var item in CsharpStuds)
-            {
-                Console.WriteLine($"Студент {item.Name} {item.YearOfBirth} г.р. зачислен на курс \'{item.CoarseName}\'");
+                Console.WriteLine("Введите номер страницы Вашего списка контактов, которую Вы хотите увидеть");
+                var keyChar = Console.ReadKey().KeyChar;
+                if (!Char.IsDigit(keyChar))
+                {
+                    Console.WriteLine("Ошибка ввода, введите число");
+                }
+                else
+                {
+                    Console.Clear();
+                    switch (keyChar)
+                    {
+                        case '1':
+                            var page1 = contacts.Take(2);
+                            ShowPage(page1);
+                            break;
+                        case '2':
+                            var page2 = contacts.Skip(2).Take(2);
+                            ShowPage(page2);
+                            break;
+                        case '3':
+                            var page3 = contacts.Take(2);
+                            ShowPage(page3);
+                            break;
+                        default:
+                            Console.WriteLine("Вы ввели несуществующий номер страницы");
+                            break;
+                    }
+                }
             }
         }
-        public class Student 
+        public class Contact 
         {
             public string Name { get; set; }
-            public int Age { get; set; }
-            public List<string> Languages { get; set; }
+            public long Phone { get; set; }
         }
-        public class Coarse
+        static void ShowPage(IEnumerable<Contact> page) 
         {
-            public string Name { get; set; }
-            public DateTime StartDate { get; set; }
+            foreach (var item in page)
+            {
+                Console.WriteLine(item.Name + " " + item.Phone);
+            }
         }
     }
 }
