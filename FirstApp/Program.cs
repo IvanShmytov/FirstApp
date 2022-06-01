@@ -9,58 +9,64 @@ namespace LinqTest
 
         static void Main(string[] args)
         {
-            var contacts = new List<Contact>()
-            {
-               new Contact() { Name = "Андрей", Phone = 7999945005 },
-               new Contact() { Name = "Сергей", Phone = 799990455 },
-               new Contact() { Name = "Иван", Phone = 79999675 },
-               new Contact() { Name = "Игорь", Phone = 8884994 },
-               new Contact() { Name = "Анна", Phone = 665565656 },
-               new Contact() { Name = "Василий", Phone = 3434 }
-            };
+            var phoneBook = new List<Contact>();
+
+            phoneBook.Add(new Contact("Игорь", "Николаев", 79990000001, "igor@example.com"));
+            phoneBook.Add(new Contact("Сергей", "Довлатов", 79990000010, "serge@example.com"));
+            phoneBook.Add(new Contact("Анатолий", "Карпов", 79990000011, "anatoly@example.com"));
+            phoneBook.Add(new Contact("Валерий", "Леонтьев", 79990000012, "valera@example.com"));
+            phoneBook.Add(new Contact("Сергей", "Брин", 799900000013, "serg@example.com"));
+            phoneBook.Add(new Contact("Иннокентий", "Смоктуновский", 799900000013, "innokentii@example.com"));
+            IEnumerable<Contact> page = null;
             while (true)
             {
                 Console.WriteLine("Введите номер страницы Вашего списка контактов, которую Вы хотите увидеть");
-                var keyChar = Console.ReadKey().KeyChar;
-                if (!Char.IsDigit(keyChar))
+                var input = Console.ReadKey().KeyChar;
+                var parsed = Int32.TryParse(input.ToString(), out int pageNumber);
+                if (!parsed || pageNumber < 1 || pageNumber > 3)
                 {
-                    Console.WriteLine("Ошибка ввода, введите число");
+                    Console.WriteLine();
+                    Console.WriteLine("Страницы не существует");
                 }
                 else
                 {
                     Console.Clear();
-                    switch (keyChar)
+                    switch (input)
                     {
                         case '1':
-                            var page1 = contacts.Take(2);
-                            ShowPage(page1);
+                            page = phoneBook.Take(2);
                             break;
                         case '2':
-                            var page2 = contacts.Skip(2).Take(2);
-                            ShowPage(page2);
+                            page = phoneBook.Skip(2).Take(2);                            
                             break;
                         case '3':
-                            var page3 = contacts.Take(2);
-                            ShowPage(page3);
+                            page = phoneBook.Skip(4).Take(2);
                             break;
                         default:
                             Console.WriteLine("Вы ввели несуществующий номер страницы");
                             break;
+                    }
+                    foreach (var item in page)
+                    {
+                        Console.WriteLine($"{item.Name} {item.LastName} - {item.PhoneNumber}");
                     }
                 }
             }
         }
         public class Contact 
         {
-            public string Name { get; set; }
-            public long Phone { get; set; }
-        }
-        static void ShowPage(IEnumerable<Contact> page) 
-        {
-            foreach (var item in page)
+            public Contact(string name, string lastName, long phoneNumber, String email) // метод-конструктор
             {
-                Console.WriteLine(item.Name + " " + item.Phone);
+                Name = name;
+                LastName = lastName;
+                PhoneNumber = phoneNumber;
+                Email = email;
             }
+
+            public String Name { get; }
+            public String LastName { get; }
+            public long PhoneNumber { get; }
+            public String Email { get; }
         }
     }
 }
