@@ -9,65 +9,46 @@ namespace LinqTest
 
         static void Main(string[] args)
         {
-            var phoneBook = new List<Contact>();
 
-            phoneBook.Add(new Contact("Игорь", "Николаев", 79990000001, "igor@example.com"));
-            phoneBook.Add(new Contact("Сергей", "Довлатов", 79990000010, "serge@example.com"));
-            phoneBook.Add(new Contact("Анатолий", "Карпов", 79990000011, "anatoly@example.com"));
-            phoneBook.Add(new Contact("Валерий", "Леонтьев", 79990000012, "valera@example.com"));
-            phoneBook.Add(new Contact("Сергей", "Брин", 799900000013, "serg@example.com"));
-            phoneBook.Add(new Contact("Иннокентий", "Смоктуновский", 799900000013, "innokentii@example.com"));
-            IEnumerable<Contact> page = null;
-            while (true)
-            {
-                Console.WriteLine("Введите номер страницы Вашего списка контактов, которую Вы хотите увидеть");
-                var input = Console.ReadKey().KeyChar;
-                var parsed = Int32.TryParse(input.ToString(), out int pageNumber);
-                if (!parsed || pageNumber < 1 || pageNumber > 3)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Страницы не существует");
-                }
-                else
-                {
-                    Console.Clear();
-                    switch (input)
-                    {
-                        case '1':
-                            page = phoneBook.Take(2);
-                            break;
-                        case '2':
-                            page = phoneBook.Skip(2).Take(2);                            
-                            break;
-                        case '3':
-                            page = phoneBook.Skip(4).Take(2);
-                            break;
-                        default:
-                            Console.WriteLine("Вы ввели несуществующий номер страницы");
-                            break;
-                    }
-                    foreach (var item in page)
-                    {
-                        Console.WriteLine($"{item.Name} {item.LastName} - {item.PhoneNumber}");
-                    }
-                }
-            }
+            ShowCommonLetters();
+            //ShowUnicSymbols();
         }
-        public class Contact 
+        static void ShowCommonLetters() 
         {
-            public Contact(string name, string lastName, long phoneNumber, String email) // метод-конструктор
+            Console.WriteLine("Введите 1 слово");
+            string word1 = Console.ReadLine();
+            Console.WriteLine("Введите 2 слово");
+            string word2 = Console.ReadLine();
+            if (string.IsNullOrEmpty(word1) || string.IsNullOrEmpty(word2))
             {
-                Name = name;
-                LastName = lastName;
-                PhoneNumber = phoneNumber;
-                Email = email;
+                Console.WriteLine("Вы ввели пустой текст");
+                return;
             }
-
-            public String Name { get; }
-            public String LastName { get; }
-            public long PhoneNumber { get; }
-            public String Email { get; }
+            var comLetters = word1.Intersect(word2).ToArray();
+            Console.WriteLine("Общие буквы");
+            foreach (var item in comLetters)
+            {
+                Console.WriteLine(item);
+            }
         }
+        static void ShowUnicSymbols() 
+        {
+            Console.WriteLine("Введите текст");
+            string text = Console.ReadLine();
+            if (string.IsNullOrEmpty(text))
+            {
+                Console.WriteLine("Вы ввели пустой текст");
+                return;
+            }
+            string punct = ".,!?;: ";
+            var result = text.Except(punct).ToArray();
+            Console.WriteLine("Уникальные символы в тексте");
+            foreach (var item in result)
+            {
+                Console.WriteLine(item);
+            }
+        }
+        
     }
 }
 
