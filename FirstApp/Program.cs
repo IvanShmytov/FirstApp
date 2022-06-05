@@ -1,58 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
-namespace LinqTest
+namespace LinqModule.Unit_1.SelectManyExample
 {
     class Program
     {
-
         static void Main(string[] args)
         {
-            var departments = new List<Department>()
-            {
-               new Department() {Id = 1, Name = "Программирование"},
-               new Department() {Id = 2, Name = "Продажи"}
-            };
-            var employees = new List<Employee>()
-            {
-               new Employee() { DepartmentId = 1, Name = "Инна", Id = 1},
-               new Employee() { DepartmentId = 1, Name = "Андрей", Id = 2},
-               new Employee() { DepartmentId = 2, Name = "Виктор ", Id = 3},
-               new Employee() { DepartmentId = 3, Name = "Альберт ", Id = 4},
-            };
+            SelectManyEx3();
+        }
+        public static void SelectManyEx3()
+        {
+            PetOwner[] petOwners =
+                { new PetOwner { Name="Higa",
+              Pets = new List<string>{ "Scruffy", "Sam" } },
+          new PetOwner { Name="Ashkenazi",
+              Pets = new List<string>{ "Walker", "Sugar" } },
+          new PetOwner { Name="Price",
+              Pets = new List<string>{ "Scratches", "Diesel" } },
+          new PetOwner { Name="Hines",
+              Pets = new List<string>{ "Dusty" } } };
 
-            var DepEmps = departments.GroupJoin(employees, d => d.Id, e => e.DepartmentId, (d, e) => new
+            // Project the pet owner's name and the pet's name.
+            var query =
+                petOwners
+                .SelectMany(petOwner => petOwner.Pets, (petOwner, petName) => new { petOwner, petName })
+                .Where(ownerAndPet => ownerAndPet.petName.StartsWith("S"))
+                .Select(ownerAndPet =>
+                        new
+                        {
+                            Owner = ownerAndPet.petOwner.Name,
+                            Pet = ownerAndPet.petName
+                        }
+                );
+
+            // Print the results.
+            foreach (var obj in query)
             {
-                Name = d.Name,
-                Employees = e.Select(e => e.Name) 
-            });
-            foreach (var dep in DepEmps)
-            {
-                Console.WriteLine("Департамент " + dep.Name);
-                foreach (var emp in dep.Employees)
-                {
-                    Console.WriteLine(emp);
-                }
-                Console.WriteLine();
+                Console.WriteLine(obj);
             }
         }
-    }
 
-    public class Department
+        // This code produces the following output:
+        //
+        // {Owner=Higa, Pet=Scruffy}
+        // {Owner=Higa, Pet=Sam}
+        // {Owner=Ashkenazi, Pet=Sugar}
+        // {Owner=Price, Pet=Scratches}
+    }
+    class PetOwner
     {
-        public int Id { get; set; }
         public string Name { get; set; }
+        public List<string> Pets { get; set; }
     }
 
-    // Завод - изготовитель
-    public class Employee
-    {
-        public int Id { get; set; }
-        public int DepartmentId { get; set; }
-        public string Name { get; set; }
-    }
-
-
+    
 }
-
