@@ -9,61 +9,42 @@ namespace LinqTest
 
         static void Main(string[] args)
         {
-            var phoneBook = new List<Contact>();
-
-            phoneBook.Add(new Contact("Игорь", 79990000001, "igor@example.com"));
-            phoneBook.Add(new Contact("Сергей", 79990000010, "serge@example.com"));
-            phoneBook.Add(new Contact("Анатолий", 79990000011, "anatoly@example.com"));
-            phoneBook.Add(new Contact("Валерий", 79990000012, "valera@example.com"));
-            phoneBook.Add(new Contact("Сергей", 799900000013, "serg@gmail.com"));
-            phoneBook.Add(new Contact("Иннокентий", 799900000013, "innokentii@example.com"));
-
-            //var groupedBook = phoneBook.GroupBy(c => c.Email.Split('@').Last());
-            var groupedBook = (from c in phoneBook
-                               let fake = c.Email.Contains("example")
-                               select new
-                               {
-                                   Name = c.Name,
-                                   Phone = c.Phone,
-                                   Email = c.Email,
-                                   Fake = fake
-                               }).GroupBy(c => c.Fake);
-
-            foreach (var group in groupedBook)
+            var departments = new List<Department>()
             {
-                if (group.Key)
-                {
-                    Console.WriteLine("Фейковые емейлы:");
-                    foreach (var item in group)
-                    {
-                        Console.WriteLine(item.Name + "  " + item.Email);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Реальные емейлы:");
-                    foreach (var item in group)
-                    {
-                        Console.WriteLine(item.Name + "  " + item.Email);
-                    }
-                }
-                Console.WriteLine();
+               new Department() {Id = 1, Name = "Программирование"},
+               new Department() {Id = 2, Name = "Продажи"}
+            };
+            var employees = new List<Employee>()
+            {
+               new Employee() { DepartmentId = 1, Name = "Инна", Id = 1},
+               new Employee() { DepartmentId = 1, Name = "Андрей", Id = 2},
+               new Employee() { DepartmentId = 2, Name = "Виктор ", Id = 3},
+               new Employee() { DepartmentId = 3, Name = "Альберт ", Id = 4},
+            };
+            var EmpDeps = employees.Join(departments, e => e.DepartmentId, d => d.Id, (e, d) => new
+            {
+                Name = e.Name,
+                Department = d.Name
+            });
+
+            foreach (var item in EmpDeps)
+            {
+                Console.WriteLine(item.Name + " работает в " + item.Department);
             }
         }
     }
-
-    class Contact
+    public class Department
     {
-        public Contact(string name, long phone, string email)
-        {
-            Name = name;
-            Phone = phone;
-            Email = email;
-        }
-
+        public int Id { get; set; }
         public string Name { get; set; }
-        public long Phone { get; set; }
-        public string Email { get; set; }
+    }
+
+    // Завод - изготовитель
+    public class Employee
+    {
+        public int Id { get; set; }
+        public int DepartmentId { get; set; }
+        public string Name { get; set; }
     }
 }
 
