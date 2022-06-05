@@ -21,18 +21,24 @@ namespace LinqTest
                new Employee() { DepartmentId = 2, Name = "Виктор ", Id = 3},
                new Employee() { DepartmentId = 3, Name = "Альберт ", Id = 4},
             };
-            var EmpDeps = employees.Join(departments, e => e.DepartmentId, d => d.Id, (e, d) => new
-            {
-                Name = e.Name,
-                Department = d.Name
-            });
 
-            foreach (var item in EmpDeps)
+            var DepEmps = departments.GroupJoin(employees, d => d.Id, e => e.DepartmentId, (d, e) => new
             {
-                Console.WriteLine(item.Name + " работает в " + item.Department);
+                Name = d.Name,
+                Employees = e.Select(e => e.Name) 
+            });
+            foreach (var dep in DepEmps)
+            {
+                Console.WriteLine("Департамент " + dep.Name);
+                foreach (var emp in dep.Employees)
+                {
+                    Console.WriteLine(emp);
+                }
+                Console.WriteLine();
             }
         }
     }
+
     public class Department
     {
         public int Id { get; set; }
@@ -46,5 +52,7 @@ namespace LinqTest
         public int DepartmentId { get; set; }
         public string Name { get; set; }
     }
+
+
 }
 
