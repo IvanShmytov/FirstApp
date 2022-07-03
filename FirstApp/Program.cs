@@ -10,18 +10,17 @@ namespace FirstApp
     {
         static void Main(string[] args)
         {
-            CarPlant Factory = new CarPlant();
-            Conveyor builder = new CarConveyor();
-            Factory.Construct(builder);
-            builder.Product.Show();
+            BaseClass myObject = new ImplementationOne(1);
+            myObject.GetId();
 
-            builder = new MotoConveyor();
-            Factory.Construct(builder);
-            builder.Product.Show();
+            BaseClass clone = myObject.Clone();
+            clone.GetId();
 
-            builder = new ScooterConveyor();
-            Factory.Construct(builder);
-            builder.Product.Show();
+            myObject = new ImplementationTwo(2);
+            myObject.GetId();
+
+            clone = myObject.Clone();
+            clone.GetId();
 
         }
 
