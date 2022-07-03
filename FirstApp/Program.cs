@@ -10,20 +10,78 @@ namespace FirstApp
     {
         static void Main(string[] args)
         {
-            BaseClass myObject = new ImplementationOne(1);
-            myObject.GetId();
+            Pult pult = new Pult();
+            Gate gate = new Gate();
 
-            BaseClass clone = myObject.Clone();
-            clone.GetId();
-
-            myObject = new ImplementationTwo(2);
-            myObject.GetId();
-
-            clone = myObject.Clone();
-            clone.GetId();
+            pult.SetAction(new GateOpenAction(gate));
+            pult.OpenButton();
+            pult.CloseButton();
 
         }
 
 
+    }
+
+    class Pult
+    {
+        IAction _action;
+
+        /// <summary>
+        ///  Инициализация команды
+        /// </summary>
+        public void SetAction(IAction action)
+        {
+            _action = action;
+        }
+
+        public void OpenButton()
+        {
+            // запуск команды
+            _action.Run();
+        }
+
+        public void CloseButton()
+        {
+            // отмена команды
+            _action.Undo();
+        }
+    }
+
+    class Gate
+    {
+        public void Open()
+        {
+            Console.WriteLine("Открываем ворота");
+        }
+
+        public void Close()
+        {
+            Console.WriteLine("Закрываем ворота");
+        }
+    }
+
+    interface IAction
+    {
+        void Run();
+        void Undo();
+    }
+    class GateOpenAction : IAction
+    {
+        Gate _gate;
+
+        public GateOpenAction(Gate gateSet)
+        {
+            _gate = gateSet;
+        }
+
+        public void Run()
+        {
+            _gate.Open();
+        }
+
+        public void Undo()
+        {
+            _gate.Close();
+        }
     }
 }
